@@ -1,0 +1,12 @@
+{
+  "name": "dk.cec.gizmores",
+  "version": "0.1.3",
+  "displayName": "Gizmores",
+  "description": "More Gizmos for Unity",
+  "author": {
+    "name": "Carl Emil Carlsen",
+    "url": "https://cec.dk"
+  },
+  "unity": "2023.2",
+  "type": "code"
+}
