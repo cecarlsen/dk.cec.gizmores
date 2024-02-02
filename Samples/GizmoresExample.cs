@@ -46,11 +46,15 @@ public class GizmoresExample : MonoBehaviour
 		Next( ref pos );
 
 		pos.x = 0; pos.z += 2;
-		Gizmores.DrawWireCyllinder( pos, 2, 0.5f );
+		Gizmores.DrawWireCyllinder( pos, 1, 0.5f, Gizmores.Axis.X );
+		Next( ref pos );
+		Gizmores.DrawWireCyllinder( pos, 1, 0.5f, Gizmores.Axis.Y );
+		Next( ref pos );
+		Gizmores.DrawWireCyllinder( pos, 1, 0.5f, Gizmores.Axis.Z );
 		Next( ref pos );
 
 		pos.x = 0; pos.z += 2;
-		Gizmores.DrawWireCapsule( pos, 2, 0.5f );
+		Gizmores.DrawWireCapsule( pos, 1, 0.5f );
 		Next( ref pos );
 
 		pos.x = 0; pos.z += 2;

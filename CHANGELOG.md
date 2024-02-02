@@ -3,7 +3,9 @@
 
 ## [0.1.3] - 2024-02-02
 
-- Converted into UPM package
+- Converted into UPM package.
+- Added axis option for DrawWireCyllinder.
+- Fixed a few Arc bugs.
 
 
 ## [0.1.2] - 2022-08-31
