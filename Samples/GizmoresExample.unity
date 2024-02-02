@@ -293,7 +293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _arcAngleBegin: 0
   _arcAngleEnd: 100.8
-  _camera: {fileID: 0}
+  _camera: {fileID: 685191305}
   coneAngle: 60
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
