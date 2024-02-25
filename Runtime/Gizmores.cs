@@ -3,7 +3,7 @@
 
 	The MIT License (MIT)
 
-		Copyright (c) 2018-2022, Carl Emil Carlsen http://cec.dk
+		Copyright (c) 2018-2023, Carl Emil Carlsen http://cec.dk
 
 		Permission is hereby granted, free of charge, to any person obtaining a copy
 		of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@
 
 using UnityEngine;
 
-public static class Gizmores
+public static partial class Gizmores
 {
 	static Vector2[] circlePoints;
 
@@ -395,7 +395,7 @@ public static class Gizmores
 	/// Draw a 3D wire cross hair.
 	/// </summary>
 	public static void DrawWireCross( Vector3 position, float size )
-    {
+	{
 		float extents = size * 0.5f;
 		Gizmos.DrawLine( position + Vector3.left * extents, position + Vector3.right * extents );
 		Gizmos.DrawLine( position + Vector3.down * extents, position + Vector3.up * extents );
@@ -415,6 +415,8 @@ public static class Gizmores
 		if( colorize ) Gizmos.color = Color.blue;
 		Gizmos.DrawLine( position, position + Vector3.forward * extents );
 	}
+
+
 
 
 	static void CreateCirlcePoints()
