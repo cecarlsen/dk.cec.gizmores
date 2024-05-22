@@ -12,5 +12,8 @@ More Gizmos for Unity.
 - DrawWireCapsule
 - DrawWireCone
 - DrawWireSphericalCone
+- DrawWireSphericalSegment
+- DrawWireBone
 - DrawWireCross
 - DrawWireAxis
+- DrawFrustum

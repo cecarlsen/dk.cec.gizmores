@@ -3,6 +3,8 @@
 
 ## [0.1.5] - 2024-05-22
 
+- Improved exmaple scene.
+- Fixed DrawWireCapsule radius.
 - Added Axis option to DrawWireCapsule.
 
 

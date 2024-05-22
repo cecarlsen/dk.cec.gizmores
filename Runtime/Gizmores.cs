@@ -191,38 +191,38 @@ public static partial class Gizmores
 	/// <summary>
 	/// Draw a cylinder.
 	/// </summary>
-	public static void DrawWireCyllinder( Vector3 center, float cyllinderHeight, float radius, Axis axis = Axis.Z )
+	public static void DrawWireCyllinder( Vector3 center, float length, float radius, Axis axis = Axis.Z )
 	{
 		if( circlePoints == null ) CreateCirlcePoints();
 
-		float halfHeight = cyllinderHeight * 0.5f;
+		float extents = length * 0.5f;
 		switch( axis )
 		{
 			case Axis.X:
-				Gizmos.DrawLine( new Vector3( center.x-halfHeight, center.y-radius, center.z ), new Vector3( center.x+halfHeight, center.y-radius, center.z ) );
-				Gizmos.DrawLine( new Vector3( center.x-halfHeight, center.y+radius, center.z ), new Vector3( center.x+halfHeight, center.y+radius, center.z ) );
-				Gizmos.DrawLine( new Vector3( center.x-halfHeight, center.y, center.z-radius ), new Vector3( center.x+halfHeight, center.y, center.z-radius ) );
-				Gizmos.DrawLine( new Vector3( center.x-halfHeight, center.y, center.z+radius ), new Vector3( center.x+halfHeight, center.y, center.z+radius ) );
-				DrawWireCircle( new Vector3( center.x-halfHeight, center.y, center.z ), radius, Axis.X );
-				DrawWireCircle( new Vector3( center.x+halfHeight, center.y, center.z ), radius, Axis.X );
+				Gizmos.DrawLine( new Vector3( center.x-extents, center.y-radius, center.z ), new Vector3( center.x+extents, center.y-radius, center.z ) );
+				Gizmos.DrawLine( new Vector3( center.x-extents, center.y+radius, center.z ), new Vector3( center.x+extents, center.y+radius, center.z ) );
+				Gizmos.DrawLine( new Vector3( center.x-extents, center.y, center.z-radius ), new Vector3( center.x+extents, center.y, center.z-radius ) );
+				Gizmos.DrawLine( new Vector3( center.x-extents, center.y, center.z+radius ), new Vector3( center.x+extents, center.y, center.z+radius ) );
+				DrawWireCircle( new Vector3( center.x-extents, center.y, center.z ), radius, Axis.X );
+				DrawWireCircle( new Vector3( center.x+extents, center.y, center.z ), radius, Axis.X );
 				break;
 
 			case Axis.Y:
-				Gizmos.DrawLine( new Vector3( center.x-radius, center.y-halfHeight, center.z ), new Vector3( center.x-radius, center.y+halfHeight, center.z ) );
-				Gizmos.DrawLine( new Vector3( center.x+radius, center.y-halfHeight, center.z ), new Vector3( center.x+radius, center.y+halfHeight, center.z ) );
-				Gizmos.DrawLine( new Vector3( center.x, center.y-halfHeight, center.z-radius ), new Vector3( center.x, center.y+halfHeight, center.z-radius ) );
-				Gizmos.DrawLine( new Vector3( center.x, center.y-halfHeight, center.z+radius ), new Vector3( center.x, center.y+halfHeight, center.z+radius ) );
-				DrawWireCircle( new Vector3( center.x, center.y-halfHeight, center.z ), radius, Axis.Y );
-				DrawWireCircle( new Vector3( center.x, center.y+halfHeight, center.z ), radius, Axis.Y );
+				Gizmos.DrawLine( new Vector3( center.x-radius, center.y-extents, center.z ), new Vector3( center.x-radius, center.y+extents, center.z ) );
+				Gizmos.DrawLine( new Vector3( center.x+radius, center.y-extents, center.z ), new Vector3( center.x+radius, center.y+extents, center.z ) );
+				Gizmos.DrawLine( new Vector3( center.x, center.y-extents, center.z-radius ), new Vector3( center.x, center.y+extents, center.z-radius ) );
+				Gizmos.DrawLine( new Vector3( center.x, center.y-extents, center.z+radius ), new Vector3( center.x, center.y+extents, center.z+radius ) );
+				DrawWireCircle( new Vector3( center.x, center.y-extents, center.z ), radius, Axis.Y );
+				DrawWireCircle( new Vector3( center.x, center.y+extents, center.z ), radius, Axis.Y );
 				break;
 
 			case Axis.Z:
-				Gizmos.DrawLine( new Vector3( center.x-radius, center.y, center.z-halfHeight ), new Vector3( center.x-radius, center.y, center.z+halfHeight ) );
-				Gizmos.DrawLine( new Vector3( center.x+radius, center.y, center.z-halfHeight ), new Vector3( center.x+radius, center.y, center.z+halfHeight ) );
-				Gizmos.DrawLine( new Vector3( center.x, center.y-radius, center.z-halfHeight ), new Vector3( center.x, center.y-radius, center.z+halfHeight ) );
-				Gizmos.DrawLine( new Vector3( center.x, center.y+radius, center.z-halfHeight ), new Vector3( center.x, center.y+radius, center.z+halfHeight ) );
-				DrawWireCircle( new Vector3( center.x, center.y, center.z-halfHeight ), radius, Axis.Z );
-				DrawWireCircle( new Vector3( center.x, center.y, center.z+halfHeight ), radius, Axis.Z );
+				Gizmos.DrawLine( new Vector3( center.x-radius, center.y, center.z-extents ), new Vector3( center.x-radius, center.y, center.z+extents ) );
+				Gizmos.DrawLine( new Vector3( center.x+radius, center.y, center.z-extents ), new Vector3( center.x+radius, center.y, center.z+extents ) );
+				Gizmos.DrawLine( new Vector3( center.x, center.y-radius, center.z-extents ), new Vector3( center.x, center.y-radius, center.z+extents ) );
+				Gizmos.DrawLine( new Vector3( center.x, center.y+radius, center.z-extents ), new Vector3( center.x, center.y+radius, center.z+extents ) );
+				DrawWireCircle( new Vector3( center.x, center.y, center.z-extents ), radius, Axis.Z );
+				DrawWireCircle( new Vector3( center.x, center.y, center.z+extents ), radius, Axis.Z );
 				break;
 		}		
 	}
@@ -231,11 +231,11 @@ public static partial class Gizmores
 	/// <summary>
 	/// Draw a capsule.
 	/// </summary>
-	public static void DrawWireCapsule( Vector3 center, float cyllinderHeight, float radius, Axis axis = Axis.Z )
+	public static void DrawWireCapsule( Vector3 center, float length, float radius, Axis axis = Axis.Z )
 	{
 		if( circlePoints == null ) CreateCirlcePoints();
 
-		float extents = cyllinderHeight * 0.5f;
+		float extents = length * 0.5f;
 		Vector3 aAxisDirection = AxisDirection( axis );
 		Vector3 positionA = center + aAxisDirection * extents;
 		Vector3 positionB = center - aAxisDirection * extents;
@@ -244,22 +244,22 @@ public static partial class Gizmores
 		switch( axis )
 		{
 			case Axis.X:
-				Gizmos.DrawLine( positionA + new Vector3( 0f, extents, 0f ), positionB + new Vector3( 0f, extents, 0f ) );
-				Gizmos.DrawLine( positionA + new Vector3( 0f, 0f, extents ), positionB + new Vector3( 0f, 0f, extents ) );
-				Gizmos.DrawLine( positionA + new Vector3( 0f, -extents, 0f ), positionB + new Vector3( 0f, -extents, 0f ) );
-				Gizmos.DrawLine( positionA + new Vector3( 0f, 0f, -extents ), positionB + new Vector3( 0f, 0f, -extents ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, radius, 0f ), positionB + new Vector3( 0f, radius, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, 0f, radius ), positionB + new Vector3( 0f, 0f, radius ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, -radius, 0f ), positionB + new Vector3( 0f, -radius, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, 0f, -radius ), positionB + new Vector3( 0f, 0f, -radius ) );
 				break;
 			case Axis.Y:
-				Gizmos.DrawLine( positionA + new Vector3( extents, 0f, 0f ), positionB + new Vector3( extents, 0f, 0f ) );
-				Gizmos.DrawLine( positionA + new Vector3( 0f, 0f, extents ), positionB + new Vector3( 0f, 0f, extents ) );
-				Gizmos.DrawLine( positionA + new Vector3( -extents, 0f, 0f ), positionB + new Vector3( -extents, 0f, 0f ) );
-				Gizmos.DrawLine( positionA + new Vector3( 0f, 0f, -extents ), positionB + new Vector3( 0f, 0f, -extents ) );
+				Gizmos.DrawLine( positionA + new Vector3( radius, 0f, 0f ), positionB + new Vector3( radius, 0f, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, 0f, radius ), positionB + new Vector3( 0f, 0f, radius ) );
+				Gizmos.DrawLine( positionA + new Vector3( -radius, 0f, 0f ), positionB + new Vector3( -radius, 0f, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, 0f, -radius ), positionB + new Vector3( 0f, 0f, -radius ) );
 				break;
 			case Axis.Z:
-				Gizmos.DrawLine( positionA + new Vector3( extents, 0f, 0f ), positionB + new Vector3( extents, 0f, 0f ) );
-				Gizmos.DrawLine( positionA + new Vector3( 0f, extents, 0f ), positionB + new Vector3( 0f, extents, 0f ) );
-				Gizmos.DrawLine( positionA + new Vector3( -extents, 0f, 0f ), positionB + new Vector3( -extents, 0f, 0f ) );
-				Gizmos.DrawLine( positionA + new Vector3( 0f, -extents, 0f ), positionB + new Vector3( 0f, -extents, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( radius, 0f, 0f ), positionB + new Vector3( radius, 0f, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, radius, 0f ), positionB + new Vector3( 0f, radius, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( -radius, 0f, 0f ), positionB + new Vector3( -radius, 0f, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, -radius, 0f ), positionB + new Vector3( 0f, -radius, 0f ) );
 				break;
 		}
 		
@@ -305,18 +305,19 @@ public static partial class Gizmores
 		float circleOffset = Mathf.Cos( angle * 0.5f * Mathf.Deg2Rad ) * radius;
 		float circleRadius = Mathf.Sin( angle * 0.5f * Mathf.Deg2Rad ) * radius;
 		Vector3 forward = AxisDirection( axis );
+
 		Vector3 right = new Vector3( forward[ 1 ], forward[ 2 ], forward[ 0 ] ) * circleRadius;
 		Vector3 up = new Vector3( forward[ 2 ], forward[ 0 ], forward[ 1 ] ) * circleRadius;
-		if( flip ){
-			forward *= -1f;
-		}
+		if( flip ) forward *= -1f;
 		forward *= circleOffset;
+
 		Vector3 top = position + forward;
-		DrawWireCircle( position + forward, circleRadius, axis );
 		Gizmos.DrawLine( position, top + right );
 		Gizmos.DrawLine( position, top - right );
 		Gizmos.DrawLine( position, top + up );
 		Gizmos.DrawLine( position, top - up );
+
+		DrawWireCircle( position + forward, circleRadius, axis );
 		float angleOffset = axis == Axis.Y ? 90f : 0f;
 		if( flip ) angleOffset += 180f;
 		DrawWireArc( position, radius, -angle * 0.5f + angleOffset, angle * 0.5f + angleOffset, (Axis) ( ( (int) axis + 1 ) % 3 ) );
@@ -329,28 +330,33 @@ public static partial class Gizmores
 	/// <summary>
 	/// Draw a spherical segment.
 	/// </summary>
-	public static void DrawWireSphericalSegment( Vector3 position, float radius, float angle, Axis axis = Axis.Z )
+	public static void DrawWireSphericalSegment( Vector3 position, float radius, float angle, Axis axis = Axis.Z, bool flip = false )
 	{
 		float circleOffset = Mathf.Cos( angle * 0.5f * Mathf.Deg2Rad ) * radius;
 		float circleRadius = Mathf.Sin( angle * 0.5f * Mathf.Deg2Rad ) * radius;
 		Vector3 forward = AxisDirection( axis );
+		if( flip ) forward *= -1f;
 		forward *= circleOffset;
 		DrawWireCircle( position + forward, circleRadius, axis );
-		DrawWireArc( position, radius, -angle * 0.5f, angle * 0.5f, (Axis) ( ( (int) axis + 1 ) % 3 ) );
-		DrawWireArc( position, radius, -angle * 0.5f + 90, angle * 0.5f + 90, (Axis) ( ( (int) axis + 2 ) % 3 ) );
+		float angleOffset = axis == Axis.Y ? 90f : 0f;
+		if( flip ) angleOffset += 180f;
+		DrawWireArc( position, radius, -angle * 0.5f + angleOffset, angle * 0.5f + angleOffset, (Axis) ( ( (int) axis + 1 ) % 3 ) );
+		angleOffset = axis == Axis.X ? 90f : 0f;
+		if( flip ) angleOffset += 180f;
+		DrawWireArc( position, radius, -angle * 0.5f + 90 - angleOffset, angle * 0.5f + 90 - angleOffset, (Axis) ( ( (int) axis + 2 ) % 3 ) );
 	}
 
 
 	/// <summary>
 	/// Draw a bone.
 	/// </summary>
-	public static void DrawWireBone( Vector3 position, float radius, float length, Axis axis = Axis.Z, bool mirror = false )
+	public static void DrawWireBone( Vector3 position, float radius, float length, Axis axis = Axis.Z, bool flip = false )
 	{
 		Vector3 forward = AxisDirection( axis );
 		Vector3 right = new Vector3( forward[ 1 ], forward[ 2 ], forward[ 0 ] ) * radius;
 		Vector3 up = new Vector3( forward[ 2 ], forward[ 0 ], forward[ 1 ] ) * radius;
-		Vector3 top = position + forward * length * ( mirror ? -1 : 1 );
-		DrawWireDome( position, radius, axis, !mirror );
+		Vector3 top = position + forward * length * ( flip ? -1 : 1 );
+		DrawWireDome( position, radius, axis, !flip );
 		Gizmos.DrawLine( top, position + right );
 		Gizmos.DrawLine( top, position - right );
 		Gizmos.DrawLine( top, position + up );
