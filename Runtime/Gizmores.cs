@@ -1,5 +1,6 @@
 ﻿/*
 	Gizmores - more gizmos.
+	https://github.com/cecarlsen/dk.cec.gizmores
 
 	The MIT License (MIT)
 
