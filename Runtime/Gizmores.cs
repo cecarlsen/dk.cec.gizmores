@@ -158,14 +158,14 @@ public static partial class Gizmores
 	/// <summary>
 	/// Draw a dome (half sphere).
 	/// </summary>
-	public static void DrawWireDome( Vector3 center, float radius, Axis axis = Axis.Z, bool mirror = false )
+	public static void DrawWireDome( Vector3 center, float radius, Axis axis = Axis.Z, bool flip = false )
 	{
 		DrawWireCircle( center, radius, axis );
 		float aMin1 = 0;
 		float aMax1 = 180;
 		float aMin2 = -90;
 		float aMax2 = 90;
-		if( mirror ) {
+		if( flip ) {
 			aMin1 += 180;
 			aMax1 += 180;
 			aMin2 += 180;
@@ -231,55 +231,68 @@ public static partial class Gizmores
 	/// <summary>
 	/// Draw a capsule.
 	/// </summary>
-	public static void DrawWireCapsule( Vector3 center, float cyllinderHeight, float radius )
+	public static void DrawWireCapsule( Vector3 center, float cyllinderHeight, float radius, Axis axis = Axis.Z )
 	{
 		if( circlePoints == null ) CreateCirlcePoints();
 
-		float halfHeight = cyllinderHeight * 0.5f;
-		Vector3 top = new Vector3( center.x, center.y+halfHeight, center.z );
-		Vector3 bottom = new Vector3( center.x, center.y-halfHeight, center.z );
+		float extents = cyllinderHeight * 0.5f;
+		Vector3 aAxisDirection = AxisDirection( axis );
+		Vector3 positionA = center + aAxisDirection * extents;
+		Vector3 positionB = center - aAxisDirection * extents;
 
 		// Side lines.
-		Gizmos.DrawLine( new Vector3( top.x-radius, top.y, top.z ), new Vector3( bottom.x-radius, bottom.y, bottom.z ) );
-		Gizmos.DrawLine( new Vector3( top.x+radius, top.y, top.z ), new Vector3( bottom.x+radius, bottom.y, center.z ) );
-		Gizmos.DrawLine( new Vector3( top.x, top.y, top.z-radius ), new Vector3( bottom.x, bottom.y, bottom.z-radius ) );
-		Gizmos.DrawLine( new Vector3( top.x, top.y, top.z+radius ), new Vector3( bottom.x, bottom.y, bottom.z+radius ) );
+		switch( axis )
+		{
+			case Axis.X:
+				Gizmos.DrawLine( positionA + new Vector3( 0f, extents, 0f ), positionB + new Vector3( 0f, extents, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, 0f, extents ), positionB + new Vector3( 0f, 0f, extents ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, -extents, 0f ), positionB + new Vector3( 0f, -extents, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, 0f, -extents ), positionB + new Vector3( 0f, 0f, -extents ) );
+				break;
+			case Axis.Y:
+				Gizmos.DrawLine( positionA + new Vector3( extents, 0f, 0f ), positionB + new Vector3( extents, 0f, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, 0f, extents ), positionB + new Vector3( 0f, 0f, extents ) );
+				Gizmos.DrawLine( positionA + new Vector3( -extents, 0f, 0f ), positionB + new Vector3( -extents, 0f, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, 0f, -extents ), positionB + new Vector3( 0f, 0f, -extents ) );
+				break;
+			case Axis.Z:
+				Gizmos.DrawLine( positionA + new Vector3( extents, 0f, 0f ), positionB + new Vector3( extents, 0f, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, extents, 0f ), positionB + new Vector3( 0f, extents, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( -extents, 0f, 0f ), positionB + new Vector3( -extents, 0f, 0f ) );
+				Gizmos.DrawLine( positionA + new Vector3( 0f, -extents, 0f ), positionB + new Vector3( 0f, -extents, 0f ) );
+				break;
+		}
 		
-		// Lower and upper cirlces.
-		DrawWireCircle( top, radius, Axis.Y );
-		DrawWireCircle( bottom, radius, Axis.Y );
-
 		// Caps.
-		DrawWireArc( top, radius, 0, 180, Axis.Z );
-		DrawWireArc( top, radius, 0, 180, Axis.X );
-		DrawWireArc( bottom, radius, 180, 360, Axis.Z );
-		DrawWireArc( bottom, radius, 180, 360, Axis.X );
+		DrawWireDome( positionA, radius, axis );
+		DrawWireDome( positionB, radius, axis, flip: true );
 	}
 
 
 	/// <summary>
 	/// Draw a cone.
 	/// </summary>
-	public static void DrawWireCone( Vector3 position, float height, float angle, Axis axis = Axis.Z, bool originAtBottom = true )
+	public static void DrawWireCone( Vector3 position, float height, float angle, Axis axis = Axis.Z, bool flip = false )
 	{
 		float radius = Mathf.Tan( angle * 0.5f * Mathf.Deg2Rad ) * height;
 		Vector3 forward = AxisDirection( axis );
 		Vector3 right = new Vector3( forward[ 1 ], forward[ 2 ], forward[ 0 ] ) * radius;
 		Vector3 up = new Vector3( forward[ 2 ], forward[ 0 ], forward[ 1 ] ) * radius;
 		forward *= height;
-		Vector3 top = position + forward;
-		if( originAtBottom ){
-			DrawWireCircle( position, radius, axis );
-			Gizmos.DrawLine( top, position + right );
-			Gizmos.DrawLine( top, position - right );
-			Gizmos.DrawLine( top, position + up );
-			Gizmos.DrawLine( top, position - up );
+		if( flip ){
+			Vector3 circleCenter = position - forward;
+			DrawWireCircle( circleCenter, radius, axis );
+			Gizmos.DrawLine( position, circleCenter + right );
+			Gizmos.DrawLine( position, circleCenter - right );
+			Gizmos.DrawLine( position, circleCenter + up );
+			Gizmos.DrawLine( position, circleCenter - up );
 		} else {
-			DrawWireCircle( position + forward, radius, axis );
-			Gizmos.DrawLine( position, top + right );
-			Gizmos.DrawLine( position, top - right );
-			Gizmos.DrawLine( position, top + up );
-			Gizmos.DrawLine( position, top - up );
+			Vector3 circleCenter = position + forward;
+			DrawWireCircle( circleCenter, radius, axis );
+			Gizmos.DrawLine( position, circleCenter + right );
+			Gizmos.DrawLine( position, circleCenter - right );
+			Gizmos.DrawLine( position, circleCenter + up );
+			Gizmos.DrawLine( position, circleCenter - up );
 		}
 	}
 
@@ -287,13 +300,16 @@ public static partial class Gizmores
 	/// <summary>
 	/// Draw a spherical cone.
 	/// </summary>
-	public static void DrawWireSphericalCone( Vector3 position, float radius, float angle, Axis axis = Axis.Z )
+	public static void DrawWireSphericalCone( Vector3 position, float radius, float angle, Axis axis = Axis.Z, bool flip = false )
 	{
 		float circleOffset = Mathf.Cos( angle * 0.5f * Mathf.Deg2Rad ) * radius;
 		float circleRadius = Mathf.Sin( angle * 0.5f * Mathf.Deg2Rad ) * radius;
 		Vector3 forward = AxisDirection( axis );
 		Vector3 right = new Vector3( forward[ 1 ], forward[ 2 ], forward[ 0 ] ) * circleRadius;
 		Vector3 up = new Vector3( forward[ 2 ], forward[ 0 ], forward[ 1 ] ) * circleRadius;
+		if( flip ){
+			forward *= -1f;
+		}
 		forward *= circleOffset;
 		Vector3 top = position + forward;
 		DrawWireCircle( position + forward, circleRadius, axis );
@@ -302,8 +318,10 @@ public static partial class Gizmores
 		Gizmos.DrawLine( position, top + up );
 		Gizmos.DrawLine( position, top - up );
 		float angleOffset = axis == Axis.Y ? 90f : 0f;
+		if( flip ) angleOffset += 180f;
 		DrawWireArc( position, radius, -angle * 0.5f + angleOffset, angle * 0.5f + angleOffset, (Axis) ( ( (int) axis + 1 ) % 3 ) );
 		angleOffset = axis == Axis.X ? 90f : 0f;
+		if( flip ) angleOffset += 180f;
 		DrawWireArc( position, radius, -angle * 0.5f + 90 - angleOffset, angle * 0.5f + 90 - angleOffset, (Axis) ( ( (int) axis + 2 ) % 3 ) );
 	}
 

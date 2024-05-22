@@ -12,7 +12,7 @@ public class GizmoresExample : MonoBehaviour
 	[SerializeField] Camera _camera;
 
 	public float coneAngle = 90;
-
+ 
 
 	void OnDrawGizmos()
 	{
@@ -44,6 +44,12 @@ public class GizmoresExample : MonoBehaviour
 		Next( ref pos );
 		Gizmores.DrawWireDome( pos, 0.5f, Gizmores.Axis.Z );
 		Next( ref pos );
+		Gizmores.DrawWireDome( pos, 0.5f, Gizmores.Axis.X, flip: true );
+		Next( ref pos );
+		Gizmores.DrawWireDome( pos, 0.5f, Gizmores.Axis.Y, flip: true );
+		Next( ref pos );
+		Gizmores.DrawWireDome( pos, 0.5f, Gizmores.Axis.Z, flip: true );
+		Next( ref pos );
 
 		pos.x = 0; pos.z += 2;
 		Gizmores.DrawWireCyllinder( pos, 1, 0.5f, Gizmores.Axis.X );
@@ -54,7 +60,11 @@ public class GizmoresExample : MonoBehaviour
 		Next( ref pos );
 
 		pos.x = 0; pos.z += 2;
-		Gizmores.DrawWireCapsule( pos, 1, 0.5f );
+		Gizmores.DrawWireCapsule( pos, 1, 0.5f, Gizmores.Axis.X );
+		Next( ref pos );
+		Gizmores.DrawWireCapsule( pos, 1, 0.5f, Gizmores.Axis.Y );
+		Next( ref pos );
+		Gizmores.DrawWireCapsule( pos, 1, 0.5f, Gizmores.Axis.Z );
 		Next( ref pos );
 
 		pos.x = 0; pos.z += 2;
@@ -64,11 +74,11 @@ public class GizmoresExample : MonoBehaviour
 		Next( ref pos );
 		Gizmores.DrawWireCone( pos, 1, coneAngle, Gizmores.Axis.Z );
 		Next( ref pos );
-		Gizmores.DrawWireCone( pos, 1, coneAngle, Gizmores.Axis.X, false );
+		Gizmores.DrawWireCone( pos, 1, coneAngle, Gizmores.Axis.X, flip: true );
 		Next( ref pos );
-		Gizmores.DrawWireCone( pos, 1, coneAngle, Gizmores.Axis.Y, false );
+		Gizmores.DrawWireCone( pos, 1, coneAngle, Gizmores.Axis.Y, flip: true );
 		Next( ref pos );
-		Gizmores.DrawWireCone( pos, 1, coneAngle, Gizmores.Axis.Z, false );
+		Gizmores.DrawWireCone( pos, 1, coneAngle, Gizmores.Axis.Z, flip: true );
 		Next( ref pos );
 
 		pos.x = 0; pos.z += 2;
@@ -77,6 +87,13 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawWireSphericalCone( pos, 1, coneAngle, Gizmores.Axis.Y );
 		Next( ref pos );
 		Gizmores.DrawWireSphericalCone( pos, 1, coneAngle, Gizmores.Axis.Z );
+		Next( ref pos );
+		Gizmores.DrawWireSphericalCone( pos, 1, coneAngle, Gizmores.Axis.X, flip: true );
+		Next( ref pos );
+		Gizmores.DrawWireSphericalCone( pos, 1, coneAngle, Gizmores.Axis.Y, flip: true );
+		Next( ref pos );
+		Gizmores.DrawWireSphericalCone( pos, 1, coneAngle, Gizmores.Axis.Z, flip: true );
+		Next( ref pos );
 
 		pos.x = 0; pos.z += 2;
 		Gizmores.DrawWireCross( pos, 1 );

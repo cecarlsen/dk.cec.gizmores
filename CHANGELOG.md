@@ -1,5 +1,11 @@
 # Changelog
 
+
+## [0.1.5] - 2024-05-22
+
+- Added Axis option to DrawWireCapsule.
+
+
 ## [0.1.4] - 2024-02-25
 
 - Added DrawLabel.
