@@ -236,7 +236,8 @@ public static partial class Gizmores
 	{
 		if( circlePoints == null ) CreateCirlcePoints();
 
-		float extents = length * 0.5f;
+		float extents = length * 0.5f - radius;
+		if( extents < 0f ) extents = 0f;
 		Vector3 aAxisDirection = AxisDirection( axis );
 		Vector3 positionA = center + aAxisDirection * extents;
 		Vector3 positionB = center - aAxisDirection * extents;

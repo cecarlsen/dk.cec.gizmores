@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _radius: 0.498
-  _length: 0.62
+  _length: 1.45
   _height: 0.6
   _angle: 110
   _angleBegin: 0
