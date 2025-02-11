@@ -4,7 +4,7 @@
 
 	The MIT License (MIT)
 
-		Copyright (c) 2018-2023, Carl Emil Carlsen http://cec.dk
+		Copyright (c) 2018-2025, Carl Emil Carlsen http://cec.dk
 
 		Permission is hereby granted, free of charge, to any person obtaining a copy
 		of this software and associated documentation files (the "Software"), to deal
@@ -34,10 +34,11 @@ public static partial class Gizmores
 	const int cirlceResolution = 32;
 
 	public enum Axis { X, Y, Z }
+	public enum Plane { XY, XZ, ZY }
 
 
 	/// <summary>
-	/// Draw a rect (zero at center).
+	/// Draw a XY-aligned rect (lower-left is zero).
 	/// </summary>
 	/// <param name="rect"></param>
 	public static void DrawWireRect( Rect rect )
@@ -48,6 +49,37 @@ public static partial class Gizmores
 		Gizmos.DrawLine( new Vector3( min.x, max.y ), new Vector3( max.x, max.y ) );
 		Gizmos.DrawLine( new Vector3( max.x, max.y ), new Vector3( max.x, min.y ) );
 		Gizmos.DrawLine( new Vector3( max.x, min.y ), new Vector3( min.x, min.y ) );
+	}
+
+
+	/// <summary>
+	/// Draw a quad.
+	/// </summary>
+	/// <param name="rect"></param>
+	public static void DrawWireQuad( Vector3 center, Vector2 size, Plane plane = Plane.XY )
+	{
+		Vector2 extents = size * 0.5f;
+		switch( plane )
+		{
+			case Plane.XY:
+				Gizmos.DrawLine( new Vector3( center.x-extents.x, center.y-extents.y, center.z ), new Vector3( center.x+extents.x, center.y-extents.y, center.z ) );
+				Gizmos.DrawLine( new Vector3( center.x+extents.x, center.y-extents.y, center.z ), new Vector3( center.x+extents.x, center.y+extents.y, center.z ) );
+				Gizmos.DrawLine( new Vector3( center.x+extents.x, center.y+extents.y, center.z ), new Vector3( center.x-extents.x, center.y+extents.y, center.z ) );
+				Gizmos.DrawLine( new Vector3( center.x-extents.x, center.y+extents.y, center.z ), new Vector3( center.x-extents.x, center.y-extents.y, center.z ) );
+				break;
+			case Plane.XZ:
+				Gizmos.DrawLine( new Vector3( center.x-extents.x, center.y, center.z - extents.y ), new Vector3( center.x+extents.x, center.y, center.z - extents.y ) );
+				Gizmos.DrawLine( new Vector3( center.x+extents.x, center.y, center.z - extents.y ), new Vector3( center.x+extents.x, center.y, center.z + extents.y ) );
+				Gizmos.DrawLine( new Vector3( center.x+extents.x, center.y, center.z + extents.y ), new Vector3( center.x-extents.x, center.y, center.z + extents.y ) );
+				Gizmos.DrawLine( new Vector3( center.x-extents.x, center.y, center.z + extents.y ), new Vector3( center.x-extents.x, center.y, center.z - extents.y ) );
+				break;
+			case Plane.ZY:
+				Gizmos.DrawLine( new Vector3( center.x, center.y - extents.y, center.z - extents.x ), new Vector3( center.x, center.y + extents.y, center.z - extents.x ) );
+				Gizmos.DrawLine( new Vector3( center.x, center.y + extents.y, center.z - extents.x ), new Vector3( center.x, center.y + extents.y, center.z + extents.x ) );
+				Gizmos.DrawLine( new Vector3( center.x, center.y + extents.y, center.z + extents.x ), new Vector3( center.x, center.y - extents.y, center.z + extents.x ) );
+				Gizmos.DrawLine( new Vector3( center.x, center.y - extents.y, center.z + extents.x ), new Vector3( center.x, center.y - extents.y, center.z - extents.x ) );
+				break;
+		}
 	}
 
 

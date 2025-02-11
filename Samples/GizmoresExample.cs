@@ -1,5 +1,5 @@
 ﻿/*
-	Copyright © Carl Emil Carlsen 2018-2022
+	Copyright © Carl Emil Carlsen 2018-2025
 	http://cec.dk
 */
 
@@ -25,6 +25,16 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawLabel( pos, "DrawWireRect" );
 		Next( ref pos );
 		Gizmores.DrawWireRect( new Rect( pos.x, pos.y, 1f, 1f ) );
+		Next( ref pos );
+
+		pos.x = 0; pos.z += 2;
+		Gizmores.DrawLabel( pos, "DrawWireQuad" );
+		Next( ref pos );
+		Gizmores.DrawWireQuad( pos, Vector2.one, Gizmores.Plane.ZY );
+		Next( ref pos );
+		Gizmores.DrawWireQuad( pos, Vector2.one, Gizmores.Plane.XZ );
+		Next( ref pos );
+		Gizmores.DrawWireQuad( pos, Vector2.one, Gizmores.Plane.XY );
 		Next( ref pos );
 
 		pos.x = 0; pos.z += 2;

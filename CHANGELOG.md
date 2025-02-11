@@ -1,6 +1,11 @@
 # Changelog
 
 
+## [0.1.6] - 2025-02-11
+
+- Added DrawWireQuad.
+
+
 ## [0.1.5] - 2024-05-22
 
 - Improved exmaple scene.
