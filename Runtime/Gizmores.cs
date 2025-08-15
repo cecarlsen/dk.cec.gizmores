@@ -33,6 +33,10 @@ public static partial class Gizmores
 
 	const int cirlceResolution = 32;
 
+	#if UNITY_EDITOR
+		static GUIStyle labelStyle;
+	#endif
+
 	public enum Axis { X, Y, Z }
 	public enum Plane { XY, XZ, ZY }
 
@@ -40,7 +44,6 @@ public static partial class Gizmores
 	/// <summary>
 	/// Draw a XY-aligned rect (lower-left is zero).
 	/// </summary>
-	/// <param name="rect"></param>
 	public static void DrawWireRect( Rect rect )
 	{
 		Vector2 min = rect.min;
@@ -55,32 +58,53 @@ public static partial class Gizmores
 	/// <summary>
 	/// Draw a quad.
 	/// </summary>
-	/// <param name="rect"></param>
 	public static void DrawWireQuad( Vector3 center, Vector2 size, Plane plane = Plane.XY )
 	{
 		Vector2 extents = size * 0.5f;
 		switch( plane )
 		{
 			case Plane.XY:
-				Gizmos.DrawLine( new Vector3( center.x-extents.x, center.y-extents.y, center.z ), new Vector3( center.x+extents.x, center.y-extents.y, center.z ) );
-				Gizmos.DrawLine( new Vector3( center.x+extents.x, center.y-extents.y, center.z ), new Vector3( center.x+extents.x, center.y+extents.y, center.z ) );
-				Gizmos.DrawLine( new Vector3( center.x+extents.x, center.y+extents.y, center.z ), new Vector3( center.x-extents.x, center.y+extents.y, center.z ) );
-				Gizmos.DrawLine( new Vector3( center.x-extents.x, center.y+extents.y, center.z ), new Vector3( center.x-extents.x, center.y-extents.y, center.z ) );
+				DrawWireQuad(
+					new Vector3( center.x-extents.x, center.y-extents.y, center.z ),
+					new Vector3( center.x+extents.x, center.y-extents.y, center.z ),
+					new Vector3( center.x+extents.x, center.y+extents.y, center.z ),
+					new Vector3( center.x-extents.x, center.y+extents.y, center.z )
+				);
 				break;
 			case Plane.XZ:
-				Gizmos.DrawLine( new Vector3( center.x-extents.x, center.y, center.z - extents.y ), new Vector3( center.x+extents.x, center.y, center.z - extents.y ) );
-				Gizmos.DrawLine( new Vector3( center.x+extents.x, center.y, center.z - extents.y ), new Vector3( center.x+extents.x, center.y, center.z + extents.y ) );
-				Gizmos.DrawLine( new Vector3( center.x+extents.x, center.y, center.z + extents.y ), new Vector3( center.x-extents.x, center.y, center.z + extents.y ) );
-				Gizmos.DrawLine( new Vector3( center.x-extents.x, center.y, center.z + extents.y ), new Vector3( center.x-extents.x, center.y, center.z - extents.y ) );
+				DrawWireQuad(
+					new Vector3( center.x-extents.x, center.y, center.z - extents.y ),
+					new Vector3( center.x+extents.x, center.y, center.z - extents.y ),
+					new Vector3( center.x+extents.x, center.y, center.z + extents.y ),
+					new Vector3( center.x-extents.x, center.y, center.z + extents.y )
+				);
 				break;
 			case Plane.ZY:
-				Gizmos.DrawLine( new Vector3( center.x, center.y - extents.y, center.z - extents.x ), new Vector3( center.x, center.y + extents.y, center.z - extents.x ) );
-				Gizmos.DrawLine( new Vector3( center.x, center.y + extents.y, center.z - extents.x ), new Vector3( center.x, center.y + extents.y, center.z + extents.x ) );
-				Gizmos.DrawLine( new Vector3( center.x, center.y + extents.y, center.z + extents.x ), new Vector3( center.x, center.y - extents.y, center.z + extents.x ) );
-				Gizmos.DrawLine( new Vector3( center.x, center.y - extents.y, center.z + extents.x ), new Vector3( center.x, center.y - extents.y, center.z - extents.x ) );
+				DrawWireQuad(
+					new Vector3( center.x, center.y - extents.y, center.z - extents.x ),
+					new Vector3( center.x, center.y + extents.y, center.z - extents.x ),
+					new Vector3( center.x, center.y + extents.y, center.z + extents.x ),
+					new Vector3( center.x, center.y - extents.y, center.z + extents.x )
+				);
 				break;
 		}
 	}
+
+
+	/// <summary>
+	/// Draw a quad.
+	/// </summary>
+	public static void DrawWireQuad( Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, bool cross = false )
+		{
+			Gizmos.DrawLine( p0, p1 );
+			Gizmos.DrawLine( p1, p2 );
+			Gizmos.DrawLine( p2, p3 );
+			Gizmos.DrawLine( p3, p0 );
+			if( cross ) {
+				Gizmos.DrawLine( p0, p2 );
+				Gizmos.DrawLine( p1, p3 );
+			}
+		}
 
 
 	/// <summary>
@@ -447,12 +471,21 @@ public static partial class Gizmores
 
 
 	/// <summary>
-	/// Draw a label.
+	/// Draw a label in the scene using UnityEditor.Handles.
 	/// </summary>
-	public static void DrawLabel( Vector3 position, string text )
+	public static void DrawLabel( Vector4 position, string text, GUIStyle style = null )
 	{
 		#if UNITY_EDITOR
-		UnityEditor.Handles.Label( position, text );
+		GUIStyle usedStyle;
+		if( style != null ) {
+			usedStyle = style;
+		} else {
+			if( labelStyle == null ) labelStyle = new GUIStyle();
+			labelStyle.normal.textColor = Gizmos.color;
+			usedStyle = labelStyle;
+		}
+
+		UnityEditor.Handles.Label( position, text, usedStyle );
 		#endif
 	}
 
@@ -498,6 +531,85 @@ public static partial class Gizmores
 
 
 	/// <summary>
+	/// Draw a camera pperspective frustum.
+	/// </summary>
+	public static void DrawPerspectiveFrustum( Vector2 sensorSize, float focalLength, Vector2 lensShift, Vector2 depthRange )
+	{
+		var xySpread = new Vector2( sensorSize.x / focalLength, sensorSize.y / focalLength );
+
+		var upperLeft = new Vector3( xySpread.x * ( -0.5f + lensShift.x ), xySpread.y * ( 0.5f + lensShift.y ), 1f );
+		var upperRight = new Vector3( xySpread.x * ( 0.5f + lensShift.x ), xySpread.y * ( 0.5f + lensShift.y ), 1f );
+		var lowerLeft = new Vector3( xySpread.x * ( -0.5f + lensShift.x ), xySpread.y * ( -0.5f + lensShift.y ), 1f );
+		var lowerRight = new Vector3( xySpread.x * ( 0.5f + lensShift.x ), xySpread.y * ( -0.5f + lensShift.y ), 1f );
+
+		var upperLeftNear = upperLeft * depthRange.x;
+		var upperRightNear = upperRight * depthRange.x;
+		var lowerLeftNear = lowerLeft * depthRange.x;
+		var lowerRightNear = lowerRight * depthRange.x;
+		var upperLeftFar = upperLeft * depthRange.y;
+		var upperRightFar = upperRight * depthRange.y;
+		var lowerLeftFar = lowerLeft * depthRange.y;
+		var lowerRightFar = lowerRight * depthRange.y;
+
+		DrawWireHexahedron( upperLeftNear, upperRightNear, lowerLeftNear, lowerRightNear, upperLeftFar, upperRightFar, lowerLeftFar, lowerRightFar );
+	}
+
+
+	/// <summary>
+	/// Draw a camera pperspective frustum.
+	/// </summary>
+	public static void DrawPerspectiveDepthPlane( Vector2 sensorSize, float focalLength, Vector2 lensShift, float depth, bool cross = false )
+	{
+		var xySpread = new Vector2( sensorSize.x / focalLength, sensorSize.y / focalLength );
+
+		var upperLeft = new Vector3( xySpread.x * ( -0.5f + lensShift.x ), xySpread.y * ( 0.5f + lensShift.y ), 1f ) * depth;
+		var upperRight = new Vector3( xySpread.x * ( 0.5f + lensShift.x ), xySpread.y * ( 0.5f + lensShift.y ), 1f ) * depth;
+		var lowerLeft = new Vector3( xySpread.x * ( -0.5f + lensShift.x ), xySpread.y * ( -0.5f + lensShift.y ), 1f ) * depth;
+		var lowerRight = new Vector3( xySpread.x * ( 0.5f + lensShift.x ), xySpread.y * ( -0.5f + lensShift.y ), 1f ) * depth;
+
+		DrawWireQuad( upperLeft, upperRight, lowerRight, lowerLeft, cross );
+	}
+
+
+	/// <summary>
+	/// Draw a camera orthographic frustum.
+	/// </summary>
+	public static void DrawOrthographicFrustum( float orthographicSize, float aspect, Vector2 depthRange )
+	{
+		float extentsY = orthographicSize * 0.5f;
+		float extentsX = extentsY * aspect;
+
+		var upperLeftNear = new Vector3(-extentsX, extentsY, depthRange.x );
+		var upperRightNear = new Vector3( extentsX, extentsY, depthRange.x );
+		var lowerLeftNear =	 new Vector3(-extentsX, -extentsY, depthRange.x );
+		var lowerRightNear = new Vector3( extentsX, -extentsY, depthRange.x );
+		var upperLeftFar = new Vector3(-extentsX, extentsY, depthRange.y );
+		var upperRightFar = new Vector3( extentsX, extentsY, depthRange.y );
+		var lowerLeftFar = new Vector3(-extentsX, -extentsY, depthRange.y );
+		var lowerRightFar = new Vector3( extentsX, -extentsY, depthRange.y );
+
+		DrawWireHexahedron( upperLeftNear, upperRightNear, lowerLeftNear, lowerRightNear, upperLeftFar, upperRightFar, lowerLeftFar, lowerRightFar );
+	}
+
+
+	/// <summary>
+	/// Draw a camera orthographic frustum.
+	/// </summary>
+	public static void DrawOrthographicDepthPlane( float orthographicSize, float aspect, float depth, bool cross = false )
+	{
+		float extentsY = orthographicSize * 0.5f;
+		float extentsX = extentsY * aspect;
+
+		var upperLeft = new Vector3( -extentsX, extentsY, depth );
+		var upperRight = new Vector3( extentsX, extentsY, depth );
+		var lowerLeft =	 new Vector3(-extentsX, -extentsY, depth );
+		var lowerRight = new Vector3( extentsX, -extentsY, depth );
+
+		DrawWireQuad( upperLeft, upperRight, lowerRight, lowerLeft, cross );
+	}
+
+
+	/// <summary>
 	/// Draw a 3D wire cross hair.
 	/// </summary>
 	public static void DrawWireCross( Vector3 position, float size )
@@ -523,6 +635,26 @@ public static partial class Gizmores
 	}
 
 
+	static void DrawWireHexahedron
+	(
+		Vector3 upperLeftNear, Vector3 upperRightNear, Vector3 lowerLeftNear, Vector3 lowerRightNear,
+		Vector3 upperLeftFar, Vector3 upperRightFar, Vector3 lowerLeftFar, Vector3 lowerRightFar
+	){
+		Gizmos.DrawLine( upperLeftNear, upperLeftFar );
+		Gizmos.DrawLine( upperRightNear, upperRightFar );
+		Gizmos.DrawLine( lowerLeftNear, lowerLeftFar );
+		Gizmos.DrawLine( lowerRightNear, lowerRightFar );
+
+		Gizmos.DrawLine( upperLeftNear, lowerLeftNear );
+		Gizmos.DrawLine( upperRightNear, lowerRightNear );
+		Gizmos.DrawLine( upperLeftNear, upperRightNear );
+		Gizmos.DrawLine( lowerLeftNear, lowerRightNear );
+
+		Gizmos.DrawLine( upperLeftFar, lowerLeftFar );
+		Gizmos.DrawLine( upperRightFar, lowerRightFar );
+		Gizmos.DrawLine( upperLeftFar, upperRightFar );
+		Gizmos.DrawLine( lowerLeftFar, lowerRightFar );
+	}
 
 
 	static void CreateCirlcePoints()

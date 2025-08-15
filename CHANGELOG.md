@@ -4,6 +4,10 @@
 ## [0.1.7] - 2025-08-15
 
 - Added DrawWireRoundCone.
+- Added DrawPerspectiveFrustum.
+- Added DrawOrthographicFrustum.
+- Added DrawWireQuad override.
+
 
 
 ## [0.1.6] - 2025-02-11
