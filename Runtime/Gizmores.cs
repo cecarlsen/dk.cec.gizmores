@@ -382,6 +382,54 @@ public static partial class Gizmores
 
 
 	/// <summary>
+	/// Draw a round cone.
+	/// </summary>
+	public static void DrawWireRoundCone( Vector3 pointA, Vector3 pointB, float radiusA, float radiusB )
+	{
+		// Calculate the axis direction and distance
+		Vector3 a2b = pointB - pointA;
+		float distance = a2b.magnitude;
+		if( distance < 0.001f ) return; // Avoid division by zero
+		
+		Vector3 axisNormalized = a2b.normalized;
+		
+		// Calculate the angle for the spherical segments
+		// This is the angle of the cone opening based on the radius difference
+		float radiusDiff = Mathf.Abs( radiusA - radiusB );
+		if( radiusA < radiusB ) radiusDiff = -radiusDiff; // Ensure the angle is positive if radiusA < radiusB
+		float angle = 2f * Mathf.Acos( radiusDiff / distance ) * Mathf.Rad2Deg;
+		
+		// Save the current Gizmos matrix
+		Matrix4x4 originalMatrix = Gizmos.matrix;
+		
+		// Create rotations to orient each spherical segment correctly
+		Quaternion rotation = Quaternion.FromToRotation( Vector3.forward, axisNormalized );
+
+		float radiusMin = Mathf.Min( radiusA, radiusB );
+		var pointBOffset = Vector3.forward * distance;
+
+		Gizmos.matrix = Matrix4x4.TRS( pointA, rotation, Vector3.one );
+		DrawWireSphericalSegment( Vector3.zero, radiusA, 180 - angle + 180, Axis.Z, flip: true );
+		DrawWireSphericalSegment( pointBOffset, radiusB, angle, Axis.Z, flip: false );
+		DrawWireCross( Vector3.zero, radiusMin * 0.1f );
+		DrawWireCross( pointBOffset, radiusMin * 0.1f );
+
+		float sinA = Mathf.Sin( angle * 0.5f * Mathf.Deg2Rad ) * radiusA;
+		float cosA = Mathf.Cos( angle * 0.5f * Mathf.Deg2Rad ) * radiusA;
+		float sinB = Mathf.Sin( angle * 0.5f * Mathf.Deg2Rad ) * radiusB;
+		float cosB = Mathf.Cos( angle * 0.5f * Mathf.Deg2Rad ) * radiusB;
+
+		Gizmos.DrawLine( new Vector3( 0f, sinA, cosA ), pointBOffset + new Vector3( 0f, sinB, cosB ) );
+		Gizmos.DrawLine( new Vector3( 0f, -sinA, cosA ), pointBOffset + new Vector3( 0f, -sinB, cosB ) );
+		Gizmos.DrawLine( new Vector3( sinA, 0f, cosA ), pointBOffset + new Vector3( sinB, 0f, cosB ) );
+		Gizmos.DrawLine( new Vector3( -sinA, 0f, cosA ), pointBOffset + new Vector3( -sinB, 0f, cosB ) );
+		
+		// Restore the original matrix for tangent line calculations
+		Gizmos.matrix = originalMatrix;
+	}
+
+
+	/// <summary>
 	/// Draw a bone.
 	/// </summary>
 	public static void DrawWireBone( Vector3 position, float radius, float length, Axis axis = Axis.Z, bool flip = false )

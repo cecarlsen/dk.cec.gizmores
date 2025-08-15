@@ -13,9 +13,12 @@ public class GizmoresExample : MonoBehaviour
 	[SerializeField] float _angle = 110;
 	[SerializeField] float _angleBegin = 0;
 	[SerializeField] float _angleEnd = 110;
+	[SerializeField] Vector2 _roundConeRadiuses = new Vector2( 0.2f, 0.5f );
 	[SerializeField] Camera _camera;
 
 	public float coneAngle = 90;
+
+	const float offsetZ = 2f;
  
 
 	void OnDrawGizmos()
@@ -27,7 +30,7 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawWireRect( new Rect( pos.x, pos.y, 1f, 1f ) );
 		Next( ref pos );
 
-		pos.x = 0; pos.z += 2;
+		pos.x = 0; pos.z += offsetZ;
 		Gizmores.DrawLabel( pos, "DrawWireQuad" );
 		Next( ref pos );
 		Gizmores.DrawWireQuad( pos, Vector2.one, Gizmores.Plane.ZY );
@@ -37,7 +40,7 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawWireQuad( pos, Vector2.one, Gizmores.Plane.XY );
 		Next( ref pos );
 
-		pos.x = 0; pos.z += 2;
+		pos.x = 0; pos.z += offsetZ;
 		Gizmores.DrawLabel( pos, "DrawWireCircle" );
 		Next( ref pos );
 		Gizmores.DrawWireCircle( pos, _radius, Gizmores.Axis.X );
@@ -47,7 +50,7 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawWireCircle( pos, _radius, Gizmores.Axis.Z );
 		Next( ref pos );
 
-		pos.x = 0; pos.z += 2;
+		pos.x = 0; pos.z += offsetZ;
 		Gizmores.DrawLabel( pos, "DrawWireArc" );
 		Next( ref pos );
 		Gizmores.DrawWireArc( pos, _radius, _angleBegin, _angleEnd, Gizmores.Axis.X );
@@ -57,7 +60,7 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawWireArc( pos, _radius, _angleBegin, _angleEnd, Gizmores.Axis.Z );
 		Next( ref pos );
 
-		pos.x = 0; pos.z += 2;
+		pos.x = 0; pos.z += offsetZ;
 		Gizmores.DrawLabel( pos, "DrawWireDome" );
 		Next( ref pos );
 		Gizmores.DrawWireDome( pos, _radius, Gizmores.Axis.X );
@@ -73,7 +76,7 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawWireDome( pos, _radius, Gizmores.Axis.Z, flip: true );
 		Next( ref pos );
 
-		pos.x = 0; pos.z += 2;
+		pos.x = 0; pos.z += offsetZ;
 		Gizmores.DrawLabel( pos, "DrawWireCyllinder" );
 		Next( ref pos );
 		Gizmores.DrawWireCyllinder( pos, _length, _radius, Gizmores.Axis.X );
@@ -83,7 +86,7 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawWireCyllinder( pos, _length, _radius, Gizmores.Axis.Z );
 		Next( ref pos );
 
-		pos.x = 0; pos.z += 2;
+		pos.x = 0; pos.z += offsetZ;
 		Gizmores.DrawLabel( pos, "DrawWireCapsule" );
 		Next( ref pos );
 		Gizmores.DrawWireCapsule( pos, _length, _radius, Gizmores.Axis.X );
@@ -93,7 +96,7 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawWireCapsule( pos, _length, _radius, Gizmores.Axis.Z );
 		Next( ref pos );
 
-		pos.x = 0; pos.z += 2;
+		pos.x = 0; pos.z += offsetZ;
 		Gizmores.DrawLabel( pos, "DrawWireCone" );
 		Next( ref pos );
 		Gizmores.DrawWireCone( pos, _height, coneAngle, Gizmores.Axis.X );
@@ -109,7 +112,7 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawWireCone( pos, _height, coneAngle, Gizmores.Axis.Z, flip: true );
 		Next( ref pos );
 
-		pos.x = 0; pos.z += 2;
+		pos.x = 0; pos.z += offsetZ;
 		Gizmores.DrawLabel( pos, "DrawWireSphericalCone" );
 		Next( ref pos );
 		Gizmores.DrawWireSphericalCone( pos, _radius, coneAngle, Gizmores.Axis.X );
@@ -125,7 +128,7 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawWireSphericalCone( pos, _radius, coneAngle, Gizmores.Axis.Z, flip: true );
 		Next( ref pos );
 
-		pos.x = 0; pos.z += 2;
+		pos.x = 0; pos.z += offsetZ;
 		Gizmores.DrawLabel( pos, "DrawWireSphericalSegment" );
 		Next( ref pos );
 		Gizmores.DrawWireSphericalSegment( pos, _radius, _angle, Gizmores.Axis.X );
@@ -141,7 +144,17 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawWireSphericalSegment( pos, _radius, _angle, Gizmores.Axis.Z, flip: true );
 		Next( ref pos );
 
-		pos.x = 0; pos.z += 2;
+		pos.x = 0; pos.z += offsetZ;
+		Gizmores.DrawLabel( pos, "DrawWireRoundCone" );
+		Next( ref pos );
+		Gizmores.DrawWireRoundCone( pos, pos + Vector3.right, _roundConeRadiuses.x, _roundConeRadiuses.y );
+		Next( ref pos );
+		Gizmores.DrawWireRoundCone( pos, pos + Vector3.up, _roundConeRadiuses.x, _roundConeRadiuses.y );
+		Next( ref pos );
+		Gizmores.DrawWireRoundCone( pos, pos + Vector3.forward, _roundConeRadiuses.x, _roundConeRadiuses.y );
+		Next( ref pos );
+
+		pos.x = 0; pos.z += offsetZ;
 		Gizmores.DrawLabel( pos, "DrawWireBone" );
 		Next( ref pos );
 		Gizmores.DrawWireBone( pos, _radius, _length, Gizmores.Axis.X );
@@ -157,7 +170,7 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawWireBone( pos, _radius, _length, Gizmores.Axis.Z, flip: true );
 		Next( ref pos );
 
-		pos.x = 0; pos.z += 2;
+		pos.x = 0; pos.z += offsetZ;
 		Gizmores.DrawLabel( pos, "DrawLabel" );
 		Next( ref pos );
 		Gizmores.DrawLabel( pos, "A" );
@@ -167,13 +180,13 @@ public class GizmoresExample : MonoBehaviour
 		Gizmores.DrawLabel( pos, "C" );
 		Next( ref pos );
 
-		pos.x = 0; pos.z += 2;
+		pos.x = 0; pos.z += offsetZ;
 		Gizmores.DrawLabel( pos, "DrawWireCross" );
 		Next( ref pos );
 		Gizmores.DrawWireCross( pos, 1 );
 		Next( ref pos );
 
-		pos.x = 0; pos.z += 2;
+		pos.x = 0; pos.z += offsetZ;
 		Gizmores.DrawLabel( pos, "DrawWireAxis" );
 		Next( ref pos );
 		Gizmores.DrawWireAxis( pos, 0.5f );

@@ -38,12 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 0
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -135,7 +135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!20 &685191305
 Camera:
   m_ObjectHideFlags: 0
@@ -249,11 +249,12 @@ MonoBehaviour:
   _radius: 0.498
   _length: 1.45
   _height: 0.6
-  _angle: 110
+  _angle: 138.2
   _angleBegin: 0
   _angleEnd: 110
+  _roundConeRadiuses: {x: 0.17, y: 0.39}
   _camera: {fileID: 0}
-  coneAngle: 86.6
+  coneAngle: 88.7
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
